@@ -14,7 +14,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private float _faceRotationSpeed;
     private EnemyStates _enemyStates = EnemyStates.Patrolling;
 
-    
+    [SerializeField] private float _shootingFrequency;
     private int _currentPositionNumber;
 
     private bool ReachedTheNextPoint =>
@@ -48,8 +48,18 @@ public class EnemyBehaviour : MonoBehaviour
     {
         while (_enemyStates == EnemyStates.Aggressive)
         {
-        yield return new WaitForSeconds(1);
-        print("shoot performed");
+            yield return new WaitForSeconds(_shootingFrequency);
+            print("shoot performed");
+            Shoot();
+        }
+    }
+
+    private void Shoot()
+    {
+        RaycastHit raycastHit;
+       if(Physics.Raycast(transform.position, transform.forward, out raycastHit))  
+        {
+            print(raycastHit.transform.name);
         }
     }
 
