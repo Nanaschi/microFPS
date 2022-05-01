@@ -6466,6 +6466,7 @@ MonoBehaviour:
   - {fileID: 1687144642}
   - {fileID: 508490804}
   _detectionLogic: {fileID: 662764151}
+  _faceRotationSpeed: 0.1
 --- !u!195 &1750464262
 NavMeshAgent:
   m_ObjectHideFlags: 0

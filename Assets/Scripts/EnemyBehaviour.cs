@@ -11,7 +11,7 @@ public class EnemyBehaviour : MonoBehaviour
     private NavMeshAgent _navMeshAgent;
     [SerializeField] Transform[] _destinationPoints;
     [SerializeField] private DetectionLogic _detectionLogic;
-
+    [SerializeField] private float _faceRotationSpeed;
     private EnemyStates _enemyStates = EnemyStates.Patrolling;
 
     
@@ -35,13 +35,24 @@ public class EnemyBehaviour : MonoBehaviour
 
 
 
-    private void AggressiveBehaviourStarted()
+    private void AggressiveBehaviourStarted(Collider collider)
     {
         _enemyStates = EnemyStates.Aggressive;
         _navMeshAgent.destination = transform.position;
+
+        StartCoroutine(RotationLogic(collider));
         StartCoroutine(ShootingLogic());
-    }    
-    
+    }
+
+    private IEnumerator ShootingLogic()
+    {
+        while (_enemyStates == EnemyStates.Aggressive)
+        {
+        yield return new WaitForSeconds(1);
+        print("shoot performed");
+        }
+    }
+
     private void AggressiveBehaviourEnded()
     {
         _enemyStates = EnemyStates.Patrolling;
@@ -50,14 +61,15 @@ public class EnemyBehaviour : MonoBehaviour
 
 
 
-    IEnumerator ShootingLogic()
+    IEnumerator RotationLogic(Collider collider)
     {
         while (_enemyStates == EnemyStates.Aggressive)
         {
-            print("shoot performed");
-            yield return new WaitForSeconds(1f);
+            FaceTarget(collider.transform.position);
+            yield return null;
         }
     }
+    
     private void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
@@ -100,6 +112,16 @@ public class EnemyBehaviour : MonoBehaviour
     {
         _detectionLogic.OnDetected -= AggressiveBehaviourStarted;
         _detectionLogic.OnDetectionLost -= AggressiveBehaviourEnded;
+    }
+    
+    
+    private Quaternion FaceTarget(Vector3 destination)
+    {
+        Vector3 lookPos = destination - transform.position;
+        lookPos.y = 0;
+        Quaternion rotation = Quaternion.LookRotation(lookPos);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, _faceRotationSpeed);
+        return rotation;
     }
     
 }

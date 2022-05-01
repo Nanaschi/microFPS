@@ -6,14 +6,14 @@ using UnityEngine;
 public class DetectionLogic : MonoBehaviour
 {
 
-    public event Action OnDetected;
+    public event Action<Collider> OnDetected;
     public event Action OnDetectionLost;
     
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<SC_FPSController>())
         {
-            OnDetected?.Invoke();
+            OnDetected?.Invoke(other);
         }
     }
 
