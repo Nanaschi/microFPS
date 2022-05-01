@@ -1926,7 +1926,7 @@ Shader "Extras/URP/XRay"
 		
 	}
 	/*ase_lod*/
-	CustomEditor "UnityEditor.ShaderGraph.PBRMasterGUI"
+/*	CustomEditor "UnityEditor.ShaderGraph.PBRMasterGUI"*/
 	Fallback "Hidden/InternalErrorShader"
 	
 }

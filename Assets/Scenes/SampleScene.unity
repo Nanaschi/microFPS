@@ -6418,7 +6418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15242d9bf65b45f4293bc3d98a918623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destinationPoints:
+  _destinationPoints:
   - {fileID: 1687144642}
   - {fileID: 508490804}
 --- !u!195 &1750464262
