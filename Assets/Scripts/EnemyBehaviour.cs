@@ -17,6 +17,15 @@ public class EnemyBehaviour : MonoBehaviour
     
     private int _currentPositionNumber;
 
+    private bool ReachedTheNextPoint =>
+        Math.Abs(transform.position.x - _destinationPoints[_currentPositionNumber].position.x) < .1;
+    
+    private bool ReachedLastPoint =>
+        Math.Abs(transform.position.x - _destinationPoints[^1].position.x) < .1;
+    
+    
+    
+
     private void OnEnable()
     {
         _detectionLogic.OnDetected += AggressiveBehaviourStarted;
@@ -48,30 +57,43 @@ public class EnemyBehaviour : MonoBehaviour
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
     }
+
+
     
-    
+    private void Start()
+    {
+        StartMovingTowardsPosition(_currentPositionNumber);
+    }
     
 
     private void Update()
     {
-        if(_enemyStates == EnemyStates.Patrolling) Patrolling(_destinationPoints);
-    }
 
-    private void Patrolling(Transform[] destinationPoints)
-    {
-
-        _navMeshAgent.destination = destinationPoints[_currentPositionNumber].position;
-
-        var reachedTheNextPoint = 
-            Math.Abs(transform.position.x - destinationPoints[_currentPositionNumber].position.x) < .1;
-        if (reachedTheNextPoint)
+        
+        if (_enemyStates == EnemyStates.Patrolling
+            &&
+            ReachedTheNextPoint)
         {
-            _currentPositionNumber += 1;
-
-            var reachedLastPoint = _currentPositionNumber == destinationPoints.Length;
-            if (reachedLastPoint) _currentPositionNumber = 0;
+            print("unnecessary update");
+            ChangeThePointToMoveTowards();
         }
     }
+
+    private void ChangeThePointToMoveTowards()
+    {
+        if (ReachedLastPoint) _currentPositionNumber = 0;
+            else _currentPositionNumber += 1;
+
+
+
+        StartMovingTowardsPosition(_currentPositionNumber);
+    }
+    
+    private void StartMovingTowardsPosition(int indexOfTransformToMoveTo)
+    {
+        _navMeshAgent.destination = _destinationPoints[indexOfTransformToMoveTo].position;
+    }
+    
     
 }
 
