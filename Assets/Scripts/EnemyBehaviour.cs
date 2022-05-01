@@ -32,27 +32,32 @@ public class EnemyBehaviour : MonoBehaviour
         _detectionLogic.OnDetectionLost += AggressiveBehaviourEnded;
     }
 
-    private void OnDisable()
-    {
-        _detectionLogic.OnDetected -= AggressiveBehaviourStarted;
-        _detectionLogic.OnDetectionLost -= AggressiveBehaviourEnded;
-    }
+
 
 
     private void AggressiveBehaviourStarted()
     {
         _enemyStates = EnemyStates.Aggressive;
         _navMeshAgent.destination = transform.position;
-        print(EnemyStates.Aggressive);
+        StartCoroutine(ShootingLogic());
     }    
     
     private void AggressiveBehaviourEnded()
     {
         _enemyStates = EnemyStates.Patrolling;
-        print(EnemyStates.Patrolling);
+        StartMovingTowardsPosition(_currentPositionNumber);
     }
 
 
+
+    IEnumerator ShootingLogic()
+    {
+        while (_enemyStates == EnemyStates.Aggressive)
+        {
+            print("shoot performed");
+            yield return new WaitForSeconds(1f);
+        }
+    }
     private void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
@@ -68,15 +73,10 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void Update()
     {
-
         
         if (_enemyStates == EnemyStates.Patrolling
             &&
-            ReachedTheNextPoint)
-        {
-            print("unnecessary update");
-            ChangeThePointToMoveTowards();
-        }
+            ReachedTheNextPoint) ChangeThePointToMoveTowards();
     }
 
     private void ChangeThePointToMoveTowards()
@@ -94,6 +94,13 @@ public class EnemyBehaviour : MonoBehaviour
         _navMeshAgent.destination = _destinationPoints[indexOfTransformToMoveTo].position;
     }
     
+    
+    
+    private void OnDisable()
+    {
+        _detectionLogic.OnDetected -= AggressiveBehaviourStarted;
+        _detectionLogic.OnDetectionLost -= AggressiveBehaviourEnded;
+    }
     
 }
 
