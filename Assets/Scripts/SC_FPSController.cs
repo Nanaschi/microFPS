@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,24 @@ public class SC_FPSController : MonoBehaviour
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
 
+
+    public event Action<GameObject> OnCursorDragged;
+
+
+    private void OnEnable()
+    {
+        OnCursorDragged += CursorColorChange;
+
+    }
+
+    private void CursorColorChange(GameObject objectUnderCursor)
+    {
+        if (objectUnderCursor.GetComponent<EnemyBehaviour>())
+        {
+            print("enemy spotted");
+        }
+    }
+
     [HideInInspector]
     public bool canMove = true;
 
@@ -32,6 +51,9 @@ public class SC_FPSController : MonoBehaviour
 
     void Update()
     {
+
+        CursorDetection();
+
         // We are grounded, so recalculate move direction based on axes
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
@@ -69,6 +91,17 @@ public class SC_FPSController : MonoBehaviour
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+        }
+    }
+
+    private void CursorDetection()
+    {
+        RaycastHit raycastHit;
+
+        if (Physics.Raycast
+                (playerCamera.transform.position, playerCamera.transform.forward, out raycastHit))
+        {
+            OnCursorDragged?.Invoke(raycastHit.transform.gameObject);
         }
     }
 }
