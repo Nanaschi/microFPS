@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 
@@ -20,6 +21,8 @@ public class SC_FPSController : MonoBehaviour
     float rotationX = 0;
 
 
+    [SerializeField] private Image _aimImage;
+
     public event Action<GameObject> OnCursorDragged;
 
 
@@ -33,7 +36,12 @@ public class SC_FPSController : MonoBehaviour
     {
         if (objectUnderCursor.GetComponent<EnemyBehaviour>())
         {
+            _aimImage.color = Color.yellow;
             print("enemy spotted");
+        }
+        else
+        {
+            _aimImage.color = Color.red;
         }
     }
 
@@ -102,6 +110,10 @@ public class SC_FPSController : MonoBehaviour
                 (playerCamera.transform.position, playerCamera.transform.forward, out raycastHit))
         {
             OnCursorDragged?.Invoke(raycastHit.transform.gameObject);
+        }
+        else
+        {
+            _aimImage.color = Color.red;
         }
     }
 }

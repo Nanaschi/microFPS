@@ -5175,7 +5175,7 @@ GameObject:
   - component: {fileID: 1076759471}
   - component: {fileID: 1076759470}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Aim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5276,6 +5276,7 @@ MonoBehaviour:
   playerCamera: {fileID: 330585545}
   lookSpeed: 2
   lookXLimit: 45
+  _aimImage: {fileID: 1076759470}
   canMove: 1
 --- !u!143 &1217164125
 CharacterController:
