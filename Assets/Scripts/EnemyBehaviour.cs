@@ -17,6 +17,11 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private float _shootingFrequency;
     private int _currentPositionNumber;
 
+
+    [SerializeField] private GameObject _projectilePrefab;
+    
+    
+
     private bool ReachedTheNextPoint =>
         Math.Abs(transform.position.x - _destinationPoints[_currentPositionNumber].position.x) < .1;
     
@@ -49,11 +54,23 @@ public class EnemyBehaviour : MonoBehaviour
         while (_enemyStates == EnemyStates.Aggressive)
         {
             yield return new WaitForSeconds(_shootingFrequency);
+            _projectilePrefab.transform.position = transform.position;
+            _projectilePrefab.SetActive(true);
+            StartCoroutine(ProjectileFly());
             print("shoot performed");
             Shoot();
         }
     }
 
+
+    IEnumerator ProjectileFly()
+    {
+        while (true)
+        {
+            _projectilePrefab.transform.Translate(Vector3.forward);
+            yield return null;
+        }
+    }
     private void Shoot()
     {
         RaycastHit raycastHit;
