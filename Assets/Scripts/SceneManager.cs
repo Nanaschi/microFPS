@@ -13,12 +13,22 @@ public class SceneManager : MonoBehaviour
     [SerializeField] private Image _gameOverSign;
     [SerializeField] private Image _victorySign;
     [SerializeField] private float _secondsToWaitLevelToReload;
-
+    [SerializeField] private LogController _logController;
     private void OnEnable()
     {
         destructionZone.OnDied += DeathReloadLogic;
+        destructionZone.OnDied += _logController.PlayerDied;
         _finishZone.OnFinished += FinishReloadLogic;
+        _finishZone.OnFinished += _logController.GameFinished;
+        EnemyBehaviour.OnShotPerformed += _logController.ShotWasMade;
+        EnemyBehaviour.OnPlayerHit += _logController.PlayerWasHit;
     }
+
+    private void Start()
+    {
+        _logController.GameStarted();
+    }
+
 
     private async void FinishReloadLogic()
     {
@@ -44,5 +54,16 @@ public class SceneManager : MonoBehaviour
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene
             (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+    }
+
+
+    private void OnDisable()
+    {
+        destructionZone.OnDied -= DeathReloadLogic;
+        destructionZone.OnDied -= _logController.PlayerDied;
+        _finishZone.OnFinished -= FinishReloadLogic;
+        _finishZone.OnFinished -= _logController.GameFinished;
+        EnemyBehaviour.OnShotPerformed -= _logController.ShotWasMade;
+        EnemyBehaviour.OnPlayerHit -= _logController.PlayerWasHit;
     }
 }

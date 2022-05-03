@@ -1,17 +1,7 @@
 Game Log 
 
-Games started: 
-Shots performed: 
-Hit by shots: 
-Games Lost: 
-Games Won: 
-Games started: 
-Shots performed: 
-Hit by shots: 
-Games Lost: 
-Games Won: 
-Games started: 
-Shots performed: 
-Hit by shots: 
-Games Lost: 
-Games Won: 
+
+Game started at 5/3/2022 3:02:53 PM (GMT +3) 
+Shot was made at 5/3/2022 3:02:57 PM (GMT +3) 
+Player was hit by FirstEvilEnemy (EnemyBehaviour) at 5/3/2022 3:02:57 PM (GMT +3) 
+Shot was made at 5/3/2022 3:02:59 PM (GMT +3) 

@@ -20,8 +20,9 @@ public class EnemyBehaviour : MonoBehaviour
 
 
     [SerializeField] private GameObject _projectilePrefab;
-    
-    
+
+    public static event Action OnShotPerformed; 
+    public static event Action<EnemyBehaviour> OnPlayerHit; 
 
     private bool ReachedTheNextPoint =>
         Math.Abs(transform.position.x - _destinationPoints[_currentPositionNumber].position.x) < .1;
@@ -58,7 +59,7 @@ public class EnemyBehaviour : MonoBehaviour
             _projectilePrefab.transform.position = transform.position;
             _projectilePrefab.SetActive(true);
             StartCoroutine(ProjectileFly());
-            print("shoot performed");
+            OnShotPerformed?.Invoke();
             Shoot();
         }
     }
@@ -83,6 +84,7 @@ public class EnemyBehaviour : MonoBehaviour
             if (raycastHit.transform.GetComponent<SC_FPSController>())
             {
                 raycastHit.transform.position += transform.forward * _shotImpactScale;
+                OnPlayerHit?.Invoke(this);
             }
         }
     }
