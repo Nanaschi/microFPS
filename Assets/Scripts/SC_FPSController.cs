@@ -47,7 +47,6 @@ public class SC_FPSController : MonoBehaviour
         if (objectUnderCursor.GetComponent<EnemyBehaviour>())
         {
             _aimImage.color = Color.yellow;
-            print("enemy spotted");
         }
         else
         {

@@ -80,7 +80,6 @@ public class EnemyBehaviour : MonoBehaviour
        if(Physics.Raycast(transform.position, transform.forward, out raycastHit))  
         {
             
-            print(raycastHit.transform.name);
             if (raycastHit.transform.GetComponent<SC_FPSController>())
             {
                 raycastHit.transform.position += transform.forward * _shotImpactScale;
