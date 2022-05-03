@@ -8,24 +8,41 @@ using UnityEngine.UI;
 public class SceneManager : MonoBehaviour
 {
 
-    [SerializeField] private DestructionZoneController _destructionZoneController;
+    [SerializeField] private DestructionZone destructionZone;
+    [SerializeField] private FinishZone _finishZone;
     [SerializeField] private Image _gameOverSign;
-    [SerializeField] private float _secondsToWaitGameOver;
+    [SerializeField] private Image _victorySign;
+    [SerializeField] private float _secondsToWaitLevelToReload;
 
     private void OnEnable()
     {
-        _destructionZoneController.OnDied += LevelReloadLogic;
+        destructionZone.OnDied += DeathReloadLogic;
+        _finishZone.OnFinished += FinishReloadLogic;
     }
 
-    private async void LevelReloadLogic()
+    private async void FinishReloadLogic()
+    {
+        _victorySign.gameObject.SetActive(true);
+
+        await Task.Delay(TimeSpan.FromSeconds(_secondsToWaitLevelToReload));
+        
+        ReloadCurrentLevel();
+    }
+
+    private async void DeathReloadLogic()
     {
         _gameOverSign.gameObject.SetActive(true);
 
-        await Task.Delay(TimeSpan.FromSeconds(_secondsToWaitGameOver));
+        await Task.Delay(TimeSpan.FromSeconds(_secondsToWaitLevelToReload));
         
+        ReloadCurrentLevel();
+        
+        
+    }
+
+    private static void ReloadCurrentLevel()
+    {
         UnityEngine.SceneManagement.SceneManager.LoadScene
-        (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
-        
-        
+            (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 }
