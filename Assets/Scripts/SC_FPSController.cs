@@ -29,10 +29,17 @@ public class SC_FPSController : MonoBehaviour
     public event Action<GameObject> OnCursorDragged;
 
 
+    [SerializeField] private ParticleSystem _hitParticleSystem;
+    
     private void OnEnable()
     {
         OnCursorDragged += CursorColorChange;
+        EnemyBehaviour.OnPlayerHit += PlayParticleSystem;
+    }
 
+    private void PlayParticleSystem(EnemyBehaviour enemyBehaviour)
+    {
+        _hitParticleSystem.Play();
     }
 
     private void CursorColorChange(GameObject objectUnderCursor)
@@ -119,4 +126,12 @@ public class SC_FPSController : MonoBehaviour
             _aimImage.color = Color.red;
         }
     }
+    
+    
+    private void OnDisable()
+    {
+        OnCursorDragged -= CursorColorChange;
+        EnemyBehaviour.OnPlayerHit -= PlayParticleSystem;
+    }
+    
 }
