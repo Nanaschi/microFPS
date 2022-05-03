@@ -5004,7 +5004,7 @@ GameObject:
   - component: {fileID: 666501541}
   - component: {fileID: 666501540}
   m_Layer: 0
-  m_Name: FirstEvilEnemy
+  m_Name: Johny
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6105,7 +6105,7 @@ GameObject:
   - component: {fileID: 1202254364}
   - component: {fileID: 1202254363}
   m_Layer: 0
-  m_Name: FirstEvilEnemy
+  m_Name: Samantha
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7650,7 +7650,7 @@ GameObject:
   - component: {fileID: 1564228736}
   - component: {fileID: 1564228735}
   m_Layer: 0
-  m_Name: FirstEvilEnemy
+  m_Name: Dave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8219,7 +8219,7 @@ GameObject:
   - component: {fileID: 1750464258}
   - component: {fileID: 1750464257}
   m_Layer: 0
-  m_Name: FirstEvilEnemy
+  m_Name: Clare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
