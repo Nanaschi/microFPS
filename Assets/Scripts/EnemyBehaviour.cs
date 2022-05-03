@@ -15,6 +15,7 @@ public class EnemyBehaviour : MonoBehaviour
     private EnemyStates _enemyStates = EnemyStates.Patrolling;
 
     [SerializeField] private float _shootingFrequency;
+    [SerializeField] private float _shotImpactScale;
     private int _currentPositionNumber;
 
 
@@ -74,9 +75,15 @@ public class EnemyBehaviour : MonoBehaviour
     private void Shoot()
     {
         RaycastHit raycastHit;
+        
        if(Physics.Raycast(transform.position, transform.forward, out raycastHit))  
         {
+            
             print(raycastHit.transform.name);
+            if (raycastHit.transform.GetComponent<SC_FPSController>())
+            {
+                raycastHit.transform.position += transform.forward * _shotImpactScale;
+            }
         }
     }
 
